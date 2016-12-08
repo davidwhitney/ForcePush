@@ -1,40 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Abstractions;
 using System.IO.Compression;
 using System.Linq;
+using System.Xml.Schema;
 
 namespace ForcePush
 {
     public class FilePackager
     {
-        public ZipArchive Package(GitDiff diff)
+        public string Package(GitDiff diff, string outputTarget)
         {
             var windowsPaths = diff.ToWindowsPaths();
-            var tempDirectory = GetTempDir();
+            var tempDirectory = TempDirectory.Create();
 
             foreach (var path in windowsPaths)
             {
-                var fileName = Path.GetFileName(path);
                 var filePath = Path.GetFullPath(path);
+
+                var relativePath = filePath.Replace(diff.RootPath, "");
+                var relativeDirectory = (Path.GetDirectoryName(relativePath) ?? "").TrimStart('\\');
+
+                if (!string.IsNullOrWhiteSpace(relativeDirectory))
+                {
+                    var dirParts = relativeDirectory.Split('\\');
+                    string current = tempDirectory;
+                    foreach (var dirctoryPart in dirParts)
+                    {
+                        current = Path.Combine(current, dirctoryPart);
+                        if (!Directory.Exists(current))
+                        {
+                            Directory.CreateDirectory(current);
+                        }
+                    }
+                }
+
+
                 // BUG: CREATE DIRECTORY STRUCTURE TOO!
+                var fileName = Path.GetFileName(path);
                 var destFileName = Path.Combine(tempDirectory, fileName);
                 File.Copy(path, destFileName);
             }
 
-            ZipFile.CreateFromDirectory(tempDirectory, @"c:\test.zip");
+            ZipFile.CreateFromDirectory(tempDirectory, outputTarget);
+            return outputTarget;
+        }
 
-            return null;
-        }
-        
-        private string GetTempDir()
-        {
-            var tempDir = Path.GetTempPath();
-            var guid = Guid.NewGuid();
-            var temp = Path.Combine(tempDir, $"ForcePush\\{guid.ToString().Substring(0, 6)}");
-            Directory.CreateDirectory(temp);
-            return temp;
-        }
     }
 }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.IO.Abstractions.TestingHelpers;
+using System.IO.Compression;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 
 namespace ForcePush.Test.Unit
 {
@@ -14,13 +10,19 @@ namespace ForcePush.Test.Unit
     public class FilePackagerTests
     {
         private FilePackager _fp;
-        private MockFileSystem _fakeFilesystem;
+        private string _tempDir;
 
         [SetUp]
         public void SetUp()
         {
-            _fakeFilesystem = new MockFileSystem();
             _fp = new FilePackager();
+            _tempDir = TempDirectory.Create("FilePackagerTests");
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Directory.Delete(_tempDir, true);
         }
 
         [Test]
@@ -28,29 +30,46 @@ namespace ForcePush.Test.Unit
         {
             var diff = RepoContainsDiffFor(@"FakeDiffDirectory");
 
-            var zipFile = _fp.Package(diff);
-            var firstFile = zipFile.Entries.Single().FullName;
+            var path = _fp.Package(diff, _tempDir + "\\Test.zip");
 
-            Assert.That(firstFile, Is.EqualTo("FakeDiffDirectory\\SomeCode.txt"));
+            using (var zipFile = ZipFile.OpenRead(path))
+            {
+                var firstFile = zipFile.Entries.Single().FullName;
+                Assert.That(firstFile, Is.EqualTo("SomeCode.txt"));
+            }
         }
 
         private GitDiff RepoContainsDiffFor(string directory)
         {
-            var root = Directory.GetDirectoryRoot(Directory.GetCurrentDirectory());
+            var root = CopyFakeRepoToTempDirectory(directory);
 
-            var testDir = Path.Combine(Directory.GetCurrentDirectory(), directory);
-            var testDirWithoutDrive = testDir.Replace(root, "\\");
-
-            var filesInTestDir = Directory.GetFiles(testDir);
+            var tempDirWithoutDrive = _tempDir.Replace(root, "\\");
+            var filesInTempDir = Directory.GetFiles(_tempDir);
             var testFiles = new List<string>();
-            foreach (var file in filesInTestDir)
+            foreach (var file in filesInTempDir)
             {
-                testFiles.Add(Path.Combine(testDirWithoutDrive, file));
+                testFiles.Add(Path.Combine(tempDirWithoutDrive, file));
             }
 
-            var gd = new GitDiff {RootPath = testDir };
+            var gd = new GitDiff {RootPath = _tempDir };
             gd.AddRange(testFiles.Select(file => "/" + file.Replace(root, "").Replace(@"\", "/")));
             return gd;
+        }
+
+        private string CopyFakeRepoToTempDirectory(string directory)
+        {
+            var cwd = (Path.GetDirectoryName(GetType().Assembly.CodeBase) ?? "").Replace(@"file:\", "");
+            var root = Directory.GetDirectoryRoot(cwd);
+            var source = Path.Combine(cwd, directory);
+            Copy.Tree(source, _tempDir);
+
+            //foreach (var canonicalPath in Directory.GetFiles(source, "*", SearchOption.AllDirectories))
+            //{
+            //    var fileName = Path.GetFileName(canonicalPath);
+            //    var destinationPath = Path.Combine(_tempDir, fileName);
+            //    File.Copy(canonicalPath, destinationPath);
+            //}
+            return root;
         }
     }
 }
