@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace ForcePush
+namespace ForcePush.Diffing
 {
     public class Cmd : ICmd
     {

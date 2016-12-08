@@ -1,7 +1,6 @@
 ﻿using System.IO;
-using System.Runtime.ConstrainedExecution;
 
-namespace ForcePush
+namespace ForcePush.Packaging
 {
     public static class Copy
     {

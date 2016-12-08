@@ -54,10 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CmdTests.cs" />
-    <Compile Include="DiffCollectorTests.cs" />
+    <Compile Include="Diffing\CmdTests.cs" />
+    <Compile Include="Diffing\DiffCollectorTests.cs" />
+    <Compile Include="Fakes\FakeDiffCreator.cs" />
     <Compile Include="Fakes\FakeCmd.cs" />
-    <Compile Include="FilePackagerTests.cs" />
+    <Compile Include="Packaging\FilePackagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

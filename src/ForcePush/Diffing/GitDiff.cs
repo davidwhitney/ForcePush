@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.IO.Abstractions;
 using System.Linq;
 
-namespace ForcePush
+namespace ForcePush.Diffing
 {
     public class GitDiff : List<string>
     {

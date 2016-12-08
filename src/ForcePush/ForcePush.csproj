@@ -49,15 +49,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cmd.cs" />
-    <Compile Include="Copy.cs" />
-    <Compile Include="DiffCollector.cs" />
-    <Compile Include="FilePackager.cs" />
-    <Compile Include="GitDiff.cs" />
-    <Compile Include="ICmd.cs" />
+    <Compile Include="Packaging\Bundler.cs" />
+    <Compile Include="Diffing\Cmd.cs" />
+    <Compile Include="Packaging\Copy.cs" />
+    <Compile Include="Diffing\DiffCollector.cs" />
+    <Compile Include="Packaging\FilePackager.cs" />
+    <Compile Include="Diffing\GitDiff.cs" />
+    <Compile Include="Diffing\ICmd.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TempDirectory.cs" />
+    <Compile Include="SalesForcePackager.cs" />
+    <Compile Include="Packaging\TempDirectory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

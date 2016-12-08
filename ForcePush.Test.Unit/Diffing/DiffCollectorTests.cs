@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
-using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+using ForcePush.Diffing;
 using ForcePush.Test.Unit.Fakes;
 using NUnit.Framework;
 
-namespace ForcePush.Test.Unit
+namespace ForcePush.Test.Unit.Diffing
 {
     [TestFixture]
     public class DiffCollectorTests

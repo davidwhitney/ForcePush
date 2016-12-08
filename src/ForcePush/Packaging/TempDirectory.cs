@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.IO.Abstractions;
 
-namespace ForcePush
+namespace ForcePush.Packaging
 {
     public static class TempDirectory
     {

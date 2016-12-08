@@ -2,7 +2,7 @@
 using System.IO;
 using System.IO.Abstractions;
 
-namespace ForcePush
+namespace ForcePush.Diffing
 {
     public class DiffCollector
     {

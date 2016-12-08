@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Xml.Schema;
+﻿using System.IO;
+using ForcePush.Diffing;
 
-namespace ForcePush
+namespace ForcePush.Packaging
 {
-    public class FilePackager
+    public class Bundler
     {
-        public string Package(GitDiff diff, string outputTarget)
+        public string CreateTempDirectoryFromDiff(GitDiff diff)
         {
             var windowsPaths = diff.ToWindowsPaths();
             var tempDirectory = TempDirectory.Create();
@@ -42,9 +38,7 @@ namespace ForcePush
                 File.Copy(path, destFileName);
             }
 
-            ZipFile.CreateFromDirectory(tempDirectory, outputTarget);
-            return outputTarget;
+            return tempDirectory;
         }
-
     }
 }

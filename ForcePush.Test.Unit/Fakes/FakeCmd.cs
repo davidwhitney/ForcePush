@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ForcePush.Diffing;
 
 namespace ForcePush.Test.Unit.Fakes
 {

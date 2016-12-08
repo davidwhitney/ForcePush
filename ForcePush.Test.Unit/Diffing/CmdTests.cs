@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using ForcePush.Diffing;
 using NUnit.Framework;
 
-namespace ForcePush.Test.Unit
+namespace ForcePush.Test.Unit.Diffing
 {
     [TestFixture]
     public class CmdTests

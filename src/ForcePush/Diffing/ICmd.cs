@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ForcePush
+namespace ForcePush.Diffing
 {
     public interface ICmd
     {
