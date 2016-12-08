@@ -62,7 +62,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\ForcePush\ForcePush.csproj">
+    <ProjectReference Include="..\..\src\ForcePush\ForcePush.csproj">
       <Project>{945e8576-5506-428b-bb7f-4ca094e370fd}</Project>
       <Name>ForcePush</Name>
     </ProjectReference>

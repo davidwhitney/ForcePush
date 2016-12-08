@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForcePush", "src\ForcePush\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{081B7438-88E5-4CFE-8DCF-1ECBEF68B206}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForcePush.Test.Unit", "ForcePush.Test.Unit\ForcePush.Test.Unit.csproj", "{1EB3D9B8-4B3B-4F09-AB23-8F40F66BAFD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForcePush.Test.Unit", "tests\ForcePush.Test.Unit\ForcePush.Test.Unit.csproj", "{1EB3D9B8-4B3B-4F09-AB23-8F40F66BAFD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

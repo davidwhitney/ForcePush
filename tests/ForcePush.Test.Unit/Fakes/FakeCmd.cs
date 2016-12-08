@@ -7,7 +7,7 @@ namespace ForcePush.Test.Unit.Fakes
     {
         public string LastCommand { get; set; }
 
-        public List<string> Execute(string command)
+        public List<string> Execute(string command, string workingDirectory = "")
         {
             LastCommand = command;
             return this;

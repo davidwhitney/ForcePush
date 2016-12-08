@@ -4,6 +4,6 @@ namespace ForcePush.Diffing
 {
     public interface ICmd
     {
-        List<string> Execute(string command);
+        List<string> Execute(string command, string workingDirectory = "");
     }
 }

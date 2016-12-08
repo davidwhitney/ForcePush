@@ -20,7 +20,7 @@ namespace ForcePush.Diffing
             if (string.IsNullOrWhiteSpace(gitDirectory)) throw new ArgumentNullException(nameof(gitDirectory));
             if (!_fileSystem.Directory.Exists(gitDirectory)) throw new DirectoryNotFoundException($"Cannot find directory '{gitDirectory}'.");
 
-            var results = _commandRunner.Execute($"git diff --name-only {firstBranch}...{secondBranch}");
+            var results = _commandRunner.Execute($"git diff --name-only {firstBranch}...{secondBranch}", gitDirectory);
             var gitDiff = new GitDiff {RootPath = gitDirectory};
             gitDiff.AddRange(results);
             return gitDiff;
