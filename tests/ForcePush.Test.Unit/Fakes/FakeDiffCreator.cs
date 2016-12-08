@@ -17,7 +17,7 @@ namespace ForcePush.Test.Unit.Fakes
             var testFiles = new List<string>();
             foreach (var file in filesInTempDir)
             {
-                testFiles.Add(Path.Combine(tempDirWithoutDrive, file));
+                testFiles.Add(file);
             }
 
             var gd = new GitDiff { RootPath = tempDirectory };

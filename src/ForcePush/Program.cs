@@ -17,12 +17,13 @@ namespace ForcePush
 
             try
             {
-                var repo = @"C:\dev\testrepo";
+                var repo = @"C:\dev\repo";
+                var metadataDirectory = "src";
                 var targetBranch = "master";
                 var sourceBranch = "feature/gitdiff";
                 var outputLocation = @"c:\dev\temp.zip";
 
-                runner.CreateSalesforceDelta(repo, targetBranch, sourceBranch, outputLocation);
+                runner.CreateSalesforceDelta(repo, targetBranch, sourceBranch, outputLocation, metadataDirectory);
             }
             catch (Exception ex)
             {

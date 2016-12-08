@@ -1,4 +1,5 @@
-﻿using ForcePush.Diffing;
+﻿using System.IO;
+using ForcePush.Diffing;
 using ForcePush.Packaging;
 
 namespace ForcePush
@@ -16,11 +17,11 @@ namespace ForcePush
             _packager = packager;
         }
 
-        public string CreateSalesforceDelta(string repoPath, string targetBranch, string sourceBranch, string outputPath)
+        public string CreateSalesforceDelta(string repoPath, string targetBranch, string sourceBranch, string outputPath, string repoDirectory = "")
         {
             var changes = _differ.RetrieveChanges(repoPath, targetBranch, sourceBranch);
             var tempDirectory = _bundler.CreateTempDirectoryFromDiff(changes);
-            _packager.Package(tempDirectory, outputPath);
+            _packager.Package(Path.Combine(tempDirectory, repoDirectory), outputPath);
 
             return outputPath;
         }

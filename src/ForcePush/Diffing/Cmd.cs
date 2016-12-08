@@ -38,7 +38,7 @@ namespace ForcePush.Diffing
                 throw new Exception("Cmd.exe Operation errored with message:\r\n\r\n" + errorOutput);
             }
 
-            return output.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            return output.Split(new[] {Environment.NewLine, "\n"}, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
     }
 }

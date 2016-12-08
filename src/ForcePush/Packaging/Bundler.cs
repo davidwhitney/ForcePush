@@ -8,7 +8,7 @@ namespace ForcePush.Packaging
         public string CreateTempDirectoryFromDiff(GitDiff diff)
         {
             var windowsPaths = diff.ToWindowsPaths();
-            var tempDirectory = TempDirectory.Create();
+            var tempDirectory = TempDirectory.Create("ForcePushBundler");
 
             foreach (var path in windowsPaths)
             {
@@ -31,10 +31,9 @@ namespace ForcePush.Packaging
                     }
                 }
 
-
-                // BUG: CREATE DIRECTORY STRUCTURE TOO!
                 var fileName = Path.GetFileName(path);
-                var destFileName = Path.Combine(tempDirectory, fileName);
+                var fullPath = Path.Combine(tempDirectory, relativeDirectory, fileName);
+                var destFileName = Path.Combine(tempDirectory, fullPath);
                 File.Copy(path, destFileName);
             }
 
