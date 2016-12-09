@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Humanizer, Version=2.1.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Humanizer.Core.2.1.0\lib\netstandard1.0\Humanizer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
@@ -60,6 +64,9 @@
     <Compile Include="CliParsing\ArgumentBinder.cs" />
     <Compile Include="CliParsing\OptionalAttribute.cs" />
     <Compile Include="CommandLineArgs.cs" />
+    <Compile Include="ManifestCreation\Package.cs" />
+    <Compile Include="ManifestCreation\PackageTypes.cs" />
+    <Compile Include="ManifestCreation\PackageXmlGenerator.cs" />
     <Compile Include="Packaging\Bundler.cs" />
     <Compile Include="Diffing\Cmd.cs" />
     <Compile Include="Packaging\Copy.cs" />
