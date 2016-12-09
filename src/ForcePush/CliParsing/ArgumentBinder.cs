@@ -13,20 +13,26 @@ namespace ForcePush.CliParsing
             var instance = new T();
             foreach (var property in map)
             {
-                foreach (var arg in args)
+                var matchingArg = args.SingleOrDefault(x => x.ToLower().StartsWith("-" + property.Name.ToLower()));
+                if (matchingArg == null)
                 {
-                    if (!arg.ToLower().StartsWith("-" + property.Name.ToLower())) continue;
-
-                    if (property.PropertyType != typeof(string))
+                    if (property.GetCustomAttribute<RequiredAttribute>() != null
+                        && property.GetValue(instance) == null)
                     {
-                        throw new Exception($"The binder only supports string properties. Could not bind '{arg}' to '{property.PropertyType.Name}'.");
+                        throw new Exception($"Missing required parameter: -{property.Name.ToLower()}");
                     }
 
-                    var value = arg.Split('=');
-                    object val = value.Length > 1 ? (value[1]??"").Trim('"', '\'') : null;
-                    
-                    property.SetValue(instance, val);
+                    continue;
                 }
+
+                if (property.PropertyType != typeof(string))
+                {
+                    throw new Exception($"The binder only supports string properties. Could not bind '{matchingArg}' to '{property.PropertyType.Name}'.");
+                }
+
+                var value = matchingArg.Split('=');
+                object val = value.Length > 1 ? (value[1] ?? "").Trim('"', '\'') : null;
+                if(val != null) property.SetValue(instance, val);
             }
 
             return instance;
@@ -39,10 +45,13 @@ namespace ForcePush.CliParsing
 
             foreach (var property in map.Where(x=>x.PropertyType == typeof(string)))
             {
-                var optional = property.GetCustomAttribute<OptionalAttribute>();
-                var optionalString = optional != null ? ", optional" : "";
+                var required = property.GetCustomAttribute<RequiredAttribute>();
+                var requiredAsString = required == null ? "" : ", required";
 
-                msg.Add($"\t\t\t-{property.Name.ToLower()}=... ({property.PropertyType.Name.ToLower()}{optionalString})");
+                var annotation = property.GetCustomAttribute<AnnotationAttribute>();
+                var annotationString = annotation != null ? "\r\n\t\t\t" + annotation.Message +"\r\n" : "";
+
+                msg.Add($"\t\t\t-{property.Name.ToLower()}=... ({property.PropertyType.Name.ToLower()}{requiredAsString}){annotationString}");
             }
 
             return msg;

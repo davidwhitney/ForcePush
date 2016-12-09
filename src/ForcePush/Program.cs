@@ -6,7 +6,7 @@ using Ninject.Extensions.Conventions;
 
 namespace ForcePush
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -18,25 +18,27 @@ namespace ForcePush
             var binder = container.Get<ArgumentBinder>();
             var runner = container.Get<SalesForcePackager>();
 
+            Console.WriteLine("ForcePush - SalesForce metadata packager.");
+
+            #if RELEASE
             if (args.Length == 0)
             {
-                var help = binder.Hint<CommandLineArgs>();
-                help.ForEach(Console.WriteLine);
+                binder.Hint<CommandLineArgs>().ForEach(Console.WriteLine);
                 return;
             }
+            #endif
 
             try
             {
-                var paramz = binder.Bind<CommandLineArgs>(args);
-
-                runner.CreateSalesforceDelta(paramz);
+                var commandLineArgs = binder.Bind<CommandLineArgs>(args);
+                runner.CreateSalesforceDelta(commandLineArgs);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                binder.Hint<CommandLineArgs>().ForEach(Console.WriteLine);
                 Environment.ExitCode = -1;
             }
         }
-
     }
 }

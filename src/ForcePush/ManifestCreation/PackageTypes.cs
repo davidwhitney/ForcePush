@@ -4,7 +4,6 @@ using System.Xml.Serialization;
 
 namespace ForcePush.ManifestCreation
 {
-    /// <remarks/>
     [Serializable]
     [DesignerCategory("code")]
     [XmlType(AnonymousType = true, Namespace = "http://soap.sforce.com/2006/04/metadata")]

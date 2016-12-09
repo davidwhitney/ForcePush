@@ -23,12 +23,16 @@ namespace ForcePush.ManifestCreation
 
             foreach (var directory in _fs.Directory.GetDirectories(repo))
             {
-                var dirname = directory.Split('\\').Last(x => !string.IsNullOrWhiteSpace(x));
-                dirname = dirname.Singularize().Pascalize();
+                var dir = directory.Split('\\').Last(x => !string.IsNullOrWhiteSpace(x));
+                var packageName = dir.Singularize() ?? dir;
+                packageName = packageName.Pascalize() ?? dir;
+
+                var specialClasses = new List<string> {"Class", "Component", "Page", "Trigger"};
+                packageName = specialClasses.Contains(packageName) ? "Apex" + packageName : packageName;
 
                 packageTypes.Add(new PackageTypes
                 {
-                    name = dirname,
+                    name = packageName,
                     members = new[] {"*"}
                 });
             }

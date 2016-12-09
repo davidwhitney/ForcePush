@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO.Abstractions.TestingHelpers;
 using ForcePush.ManifestCreation;
+using Humanizer;
 using NUnit.Framework;
 
 namespace ForcePush.Test.Unit.ManifestCreation
@@ -44,6 +45,22 @@ namespace ForcePush.Test.Unit.ManifestCreation
             var package = _gen.GenerateFor("c:\\repo");
 
             Assert.That(package.types[0].members[0], Is.EqualTo("*"));
+        }
+
+        [TestCase("classes", "ApexClass")]
+        [TestCase("components", "ApexComponent")]
+        [TestCase("pages", "ApexPage")]
+        [TestCase("triggers", "ApexTrigger")]
+        public void GenerateFor_GivenDirectoryWithSpecialDirectory_PrefixesWithApex(string dirname, string className)
+        {
+            _gen = new PackageXmlGenerator(new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {$@"c:\repo\{dirname}\Salesforce1.appMenu", new MockFileData("file1")},
+            }));
+
+            var package = _gen.GenerateFor("c:\\repo");
+
+            Assert.That(package.types[0].name, Is.EqualTo(className));
         }
 
         [Test]

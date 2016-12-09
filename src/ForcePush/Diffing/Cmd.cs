@@ -9,7 +9,6 @@ namespace ForcePush.Diffing
     {
         public List<string> Execute(string command, string workingDirectory = "")
         {
-
             var p = new Process
             {
                 StartInfo =

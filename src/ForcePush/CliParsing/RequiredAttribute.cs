@@ -2,7 +2,7 @@
 
 namespace ForcePush.CliParsing
 {
-    public class OptionalAttribute : Attribute
+    public class RequiredAttribute : Attribute
     {
     }
 }

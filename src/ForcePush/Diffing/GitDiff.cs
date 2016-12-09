@@ -11,7 +11,6 @@ namespace ForcePush.Diffing
 
         public List<string> ToWindowsPaths()
         {
-            //var root = Directory.GetDirectoryRoot(RootPath);
             return this.Select(file => Path.Combine(RootPath, file.Replace("/", "\\"))).ToList();
         }
     }
