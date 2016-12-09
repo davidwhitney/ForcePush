@@ -17,7 +17,7 @@ namespace ForcePush
 
             try
             {
-                var repo = @"C:\dev\repo";
+                var repo = @"C:\dev\euromoney.events";
                 var metadataDirectory = "src";
                 var targetBranch = "master";
                 var sourceBranch = "feature/gitdiff";
@@ -30,6 +30,15 @@ namespace ForcePush
                 Console.WriteLine(ex.ToString());
                 Environment.ExitCode = -1;
             }
+        }
+
+        public class CommandLineArgs
+        {
+            public string Repo { get; set; }
+            public string MetadataDirectory { get; set; }
+            public string TargetBranch { get; set; }
+            public string SourceBranch { get; set; }
+            public string OutputLocation { get; set; }
         }
     }
 }

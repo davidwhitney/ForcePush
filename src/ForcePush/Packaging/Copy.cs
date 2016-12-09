@@ -23,7 +23,7 @@ namespace ForcePush.Packaging
             System.IO.File.Copy(filePath, destinationPath);
         }
 
-        private static void CreateRelativePathInDestination(string destination, string relativePath)
+        public static void CreateRelativePathInDestination(string destination, string relativePath)
         {
             var relativeDirectory = (Path.GetDirectoryName(relativePath) ?? "").TrimStart('\\');
             if (!string.IsNullOrWhiteSpace(relativeDirectory))

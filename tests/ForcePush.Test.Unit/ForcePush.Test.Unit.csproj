@@ -58,7 +58,7 @@
     <Compile Include="Diffing\DiffCollectorTests.cs" />
     <Compile Include="Fakes\FakeDiffCreator.cs" />
     <Compile Include="Fakes\FakeCmd.cs" />
-    <Compile Include="Packaging\FilePackagerTests.cs" />
+    <Compile Include="Packaging\BundlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

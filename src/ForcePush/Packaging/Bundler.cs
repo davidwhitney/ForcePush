@@ -7,6 +7,15 @@ namespace ForcePush.Packaging
     {
         public string CreateTempDirectoryFromDiff(GitDiff diff)
         {
+            // checkout correct branch
+
+            var tempDirectory = CopyTree(diff);
+
+            return tempDirectory;
+        }
+
+        private static string CopyTree(GitDiff diff)
+        {
             var windowsPaths = diff.ToWindowsPaths();
             var tempDirectory = TempDirectory.Create("ForcePushBundler");
 
@@ -17,26 +26,13 @@ namespace ForcePush.Packaging
                 var relativePath = filePath.Replace(diff.RootPath, "");
                 var relativeDirectory = (Path.GetDirectoryName(relativePath) ?? "").TrimStart('\\');
 
-                if (!string.IsNullOrWhiteSpace(relativeDirectory))
-                {
-                    var dirParts = relativeDirectory.Split('\\');
-                    string current = tempDirectory;
-                    foreach (var dirctoryPart in dirParts)
-                    {
-                        current = Path.Combine(current, dirctoryPart);
-                        if (!Directory.Exists(current))
-                        {
-                            Directory.CreateDirectory(current);
-                        }
-                    }
-                }
+                Copy.CreateRelativePathInDestination(tempDirectory, relativePath);
 
                 var fileName = Path.GetFileName(path);
                 var fullPath = Path.Combine(tempDirectory, relativeDirectory, fileName);
                 var destFileName = Path.Combine(tempDirectory, fullPath);
                 File.Copy(path, destFileName);
             }
-
             return tempDirectory;
         }
     }
