@@ -57,6 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CliParsing\ArgumentBinder.cs" />
+    <Compile Include="CliParsing\OptionalAttribute.cs" />
+    <Compile Include="CommandLineArgs.cs" />
     <Compile Include="Packaging\Bundler.cs" />
     <Compile Include="Diffing\Cmd.cs" />
     <Compile Include="Packaging\Copy.cs" />

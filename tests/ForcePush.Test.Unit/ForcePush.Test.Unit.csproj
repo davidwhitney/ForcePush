@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CliParsing\ArgumentBinderTests.cs" />
     <Compile Include="Diffing\CmdTests.cs" />
     <Compile Include="Diffing\DiffCollectorTests.cs" />
     <Compile Include="Fakes\FakeDiffCreator.cs" />

@@ -17,13 +17,13 @@ namespace ForcePush
             _packager = packager;
         }
 
-        public string CreateSalesforceDelta(string repoPath, string targetBranch, string sourceBranch, string outputPath, string repoDirectory = "")
+        public string CreateSalesforceDelta(CommandLineArgs args)
         {
-            var changes = _differ.RetrieveChanges(repoPath, targetBranch, sourceBranch);
+            var changes = _differ.RetrieveChanges(args.Repo, args.TargetBranch, args.SourceBranch);
             var tempDirectory = _bundler.CreateTempDirectoryFromDiff(changes);
-            _packager.Package(Path.Combine(tempDirectory, repoDirectory), outputPath);
+            _packager.Package(Path.Combine(tempDirectory, args.MetadataDirectory), args.OutputLocation);
 
-            return outputPath;
+            return args.OutputLocation;
         }
     }
 }
