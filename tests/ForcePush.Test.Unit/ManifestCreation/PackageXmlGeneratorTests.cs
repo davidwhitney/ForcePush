@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO.Abstractions.TestingHelpers;
 using ForcePush.ManifestCreation;
+using ForcePush.Test.Unit.Fakes;
 using Humanizer;
 using NUnit.Framework;
 
@@ -20,7 +21,7 @@ namespace ForcePush.Test.Unit.ManifestCreation
                 {@"c:\repo\appMenus\Salesforce1.appMenu", new MockFileData("file1")},
             });
 
-            _gen = new PackageXmlGenerator(_fakeFilesystem);
+            _gen = new PackageXmlGenerator(_fakeFilesystem, new FakeOutput());
         }
 
         [Test]
@@ -56,7 +57,7 @@ namespace ForcePush.Test.Unit.ManifestCreation
             _gen = new PackageXmlGenerator(new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {$@"c:\repo\{dirname}\Salesforce1.appMenu", new MockFileData("file1")},
-            }));
+            }), new FakeOutput());
 
             var package = _gen.GenerateFor("c:\\repo");
 

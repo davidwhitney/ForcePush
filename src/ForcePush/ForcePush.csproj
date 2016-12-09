@@ -68,6 +68,8 @@
     <Compile Include="ManifestCreation\Package.cs" />
     <Compile Include="ManifestCreation\PackageTypes.cs" />
     <Compile Include="ManifestCreation\PackageXmlGenerator.cs" />
+    <Compile Include="Output\ConsoleWriter.cs" />
+    <Compile Include="Output\IOutput.cs" />
     <Compile Include="Packaging\Bundler.cs" />
     <Compile Include="Diffing\Cmd.cs" />
     <Compile Include="Packaging\Copy.cs" />

@@ -14,7 +14,7 @@ namespace ForcePush.Test.Unit.Packaging
         [SetUp]
         public void SetUp()
         {
-            _fp = new Bundler();
+            _fp = new Bundler(new FakeOutput());
             _tempDir = TempDirectory.Create("FilePackagerTests");
         }
 

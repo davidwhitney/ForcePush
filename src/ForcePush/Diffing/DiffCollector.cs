@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Abstractions;
+using ForcePush.Output;
 
 namespace ForcePush.Diffing
 {
@@ -8,11 +9,13 @@ namespace ForcePush.Diffing
     {
         private readonly IFileSystem _fileSystem;
         private readonly ICmd _commandRunner;
+        private readonly IOutput _output;
 
-        public DiffCollector(IFileSystem fileSystem, ICmd commandRunner)
+        public DiffCollector(IFileSystem fileSystem, ICmd commandRunner, IOutput output)
         {
             _fileSystem = fileSystem;
             _commandRunner = commandRunner;
+            _output = output;
         }
 
         public GitDiff RetrieveChanges(string gitDirectory, string firstBranch, string secondBranch)
@@ -20,6 +23,8 @@ namespace ForcePush.Diffing
             if (string.IsNullOrWhiteSpace(gitDirectory)) throw new ArgumentNullException(nameof(gitDirectory));
             if (!_fileSystem.Directory.Exists(gitDirectory)) throw new DirectoryNotFoundException($"Cannot find directory '{gitDirectory}'.");
 
+            _output.WriteLine("Collecting Git-Diff...");
+            
             var results = _commandRunner.Execute($"git diff --name-only {firstBranch}...{secondBranch}", gitDirectory);
             var gitDiff = new GitDiff {RootPath = gitDirectory, Branch = secondBranch};
             gitDiff.AddRange(results);

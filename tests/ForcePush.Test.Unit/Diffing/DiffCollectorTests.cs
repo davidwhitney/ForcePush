@@ -26,7 +26,7 @@ namespace ForcePush.Test.Unit.Diffing
 
             _fakeCommandRunner = new FakeCmd();
 
-            _differ = new DiffCollector(_fakeFilesystem, _fakeCommandRunner);
+            _differ = new DiffCollector(_fakeFilesystem, _fakeCommandRunner, new FakeOutput());
         }
 
         [TestCase]

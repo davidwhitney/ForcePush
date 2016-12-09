@@ -4,6 +4,7 @@ using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using ForcePush.Output;
 using Humanizer;
 
 namespace ForcePush.ManifestCreation
@@ -11,14 +12,18 @@ namespace ForcePush.ManifestCreation
     public class PackageXmlGenerator
     {
         private readonly IFileSystem _fs;
+        private readonly IOutput _output;
 
-        public PackageXmlGenerator(IFileSystem fs)
+        public PackageXmlGenerator(IFileSystem fs, IOutput output)
         {
             _fs = fs;
+            _output = output;
         }
 
         public Package GenerateFor(string repo)
         {
+            _output.WriteLine($"Generating package.xml contents for '{repo}'.");
+
             var packageTypes = new List<PackageTypes>();
 
             foreach (var directory in _fs.Directory.GetDirectories(repo))
@@ -40,9 +45,7 @@ namespace ForcePush.ManifestCreation
                 };
                 
                 packageName = specialClasses.ContainsKey(packageName) ? specialClasses[packageName] : packageName;
-
                 
-
                 packageTypes.Add(new PackageTypes
                 {
                     name = packageName,

@@ -61,6 +61,7 @@
     <Compile Include="CliParsing\ArgumentBinderTests.cs" />
     <Compile Include="Diffing\CmdTests.cs" />
     <Compile Include="Diffing\DiffCollectorTests.cs" />
+    <Compile Include="Fakes\FakeOutput.cs" />
     <Compile Include="Fakes\FakeDiffCreator.cs" />
     <Compile Include="Fakes\FakeCmd.cs" />
     <Compile Include="ManifestCreation\PackageXmlGeneratorTests.cs" />
