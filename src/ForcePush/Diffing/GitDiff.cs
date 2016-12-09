@@ -7,6 +7,7 @@ namespace ForcePush.Diffing
     public class GitDiff : List<string>
     {
         public string RootPath { get; set; }
+        public string Branch { get; set; }
 
         public List<string> ToWindowsPaths()
         {

@@ -70,5 +70,13 @@ namespace ForcePush.Test.Unit.Diffing
 
             Assert.That(diff.RootPath, Is.EqualTo(@"c:\repo"));
         }
+
+        [Test]
+        public void RetrieveChanges_GivenValidPath_BranchIsTracked()
+        {
+            var diff = _differ.RetrieveChanges(@"c:\repo", "master", "other");
+
+            Assert.That(diff.Branch, Is.EqualTo("other"));
+        }
     }
 }
