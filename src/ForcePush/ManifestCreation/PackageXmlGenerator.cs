@@ -27,8 +27,21 @@ namespace ForcePush.ManifestCreation
                 var packageName = dir.Singularize() ?? dir;
                 packageName = packageName.Pascalize() ?? dir;
 
-                var specialClasses = new List<string> {"Class", "Component", "Page", "Trigger"};
-                packageName = specialClasses.Contains(packageName) ? "Apex" + packageName : packageName;
+                var specialClasses = new Dictionary<string, string>
+                {
+                    {"Class", "ApexClass"},
+                    {"Component", "ApexComponent"},
+                    {"Page", "ApexPage"},
+                    {"Trigger", "ApexTrigger"},
+                    {"Email", "EmailTemplate"},
+                    {"Object", "CustomObject"},
+                    {"ObjectTranslation", "CustomObjectTranslation"},
+                    {"Tab", "CustomTab"},
+                };
+                
+                packageName = specialClasses.ContainsKey(packageName) ? specialClasses[packageName] : packageName;
+
+                
 
                 packageTypes.Add(new PackageTypes
                 {
