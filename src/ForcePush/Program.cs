@@ -20,13 +20,13 @@ namespace ForcePush
 
             Console.WriteLine("ForcePush - SalesForce metadata packager.");
 
-            #if RELEASE
+            //#if RELEASE
             if (args.Length == 0)
             {
                 binder.Hint<CommandLineArgs>().ForEach(Console.WriteLine);
                 return;
             }
-            #endif
+            //#endif
 
             try
             {
