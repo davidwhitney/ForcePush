@@ -25,6 +25,7 @@ namespace ForcePush.Test.Unit.Diffing
             });
 
             _fakeCommandRunner = new FakeCmd();
+            _fakeCommandRunner.AddResponse("On branch other");
 
             _differ = new DiffCollector(_fakeFilesystem, _fakeCommandRunner, new FakeOutput());
         }
@@ -48,7 +49,7 @@ namespace ForcePush.Test.Unit.Diffing
         [Test]
         public void RetrieveChanges_GivenValidPath_ReturnsExpectedChangedFile()
         {
-            _fakeCommandRunner.Add("addedfile.txt");
+            _fakeCommandRunner.AddResponse("addedfile.txt");
 
             var diff = _differ.RetrieveChanges(@"c:\repo", "master", "other");
 
@@ -60,7 +61,7 @@ namespace ForcePush.Test.Unit.Diffing
         {
             _differ.RetrieveChanges(@"c:\repo", "master", "other");
 
-            Assert.That(_fakeCommandRunner.LastCommand, Is.EqualTo("git diff --name-only master...other"));
+            Assert.That(_fakeCommandRunner.IssuedCommands[1], Is.EqualTo("git diff --name-only master...other"));
         }
 
         [Test]
@@ -77,6 +78,17 @@ namespace ForcePush.Test.Unit.Diffing
             var diff = _differ.RetrieveChanges(@"c:\repo", "master", "other");
 
             Assert.That(diff.Branch, Is.EqualTo("other"));
+        }
+
+        [Test]
+        public void RetrieveChanges_OnWrongBranch_SwitchesBranchFirst()
+        {
+            _fakeCommandRunner.Responses.Clear();
+            _fakeCommandRunner.AddResponse("On branch master");
+
+            _differ.RetrieveChanges(@"c:\repo", "master", "other");
+
+            Assert.That(_fakeCommandRunner.IssuedCommands[1], Is.EqualTo("git checkout -f other"));
         }
     }
 }

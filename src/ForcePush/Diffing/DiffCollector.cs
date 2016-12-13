@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Abstractions;
+using System.Linq;
 using ForcePush.Output;
 
 namespace ForcePush.Diffing
@@ -24,7 +25,13 @@ namespace ForcePush.Diffing
             if (!_fileSystem.Directory.Exists(gitDirectory)) throw new DirectoryNotFoundException($"Cannot find directory '{gitDirectory}'.");
 
             _output.WriteLine("Collecting Git-Diff...");
-            
+
+            var branchCheck = _commandRunner.Execute("git status");
+            if (branchCheck.First() != $"On branch {secondBranch}")
+            {
+                _commandRunner.Execute($"git checkout -f {secondBranch}");
+            }
+
             var results = _commandRunner.Execute($"git diff --name-only {firstBranch}...{secondBranch}", gitDirectory);
             var gitDiff = new GitDiff {RootPath = gitDirectory, Branch = secondBranch};
             gitDiff.AddRange(results);
