@@ -5,10 +5,10 @@ namespace ForcePush
     public class CommandLineArgs
     {
         [Required, Annotation("The full path to your SalesForce repository")]
-        public string Repo { get; set; } = @"C:\dev\euromoney.events";
+        public string Repo { get; set; }
 
         [Required, Annotation("Source of the incoming changes, your git branch name.")]
-        public string SourceBranch { get; set; } = "feature/gitdiff";
+        public string SourceBranch { get; set; }
 
         [Annotation("Defaults to master")]
         public string TargetBranch { get; set; } = "master";
@@ -18,5 +18,8 @@ namespace ForcePush
 
         [Annotation("If your SalesForce metadata is not in your repository root, provide a path here.")]
         public string MetadataDirectory { get; set; } = "src";
+
+        [Annotation("Include stack traces in errors.")]
+        public bool Debug { get; set; } = false;
     }
 }

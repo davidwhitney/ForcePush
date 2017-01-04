@@ -30,6 +30,27 @@ namespace ForcePush.Test.Unit.CliParsing
             Assert.That(ex.Message, Is.EqualTo("Missing required parameter: -required"));
         }
 
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Bind_BoolPresent_Maps(bool value)
+        {
+            var paramz = new List<string> {"-boolvalue=" + value, "-Required='xxx'"}.ToArray();
+
+            var instance = new ArgumentBinder().Bind<FakeClass>(paramz);
+
+            Assert.That(instance.BoolValue, Is.EqualTo(value));
+        }
+
+        [Test]
+        public void Bind_BoolPresentNoValue_Maps()
+        {
+            var paramz = new List<string> {"-boolvalue", "-Required='xxx'"}.ToArray();
+
+            var instance = new ArgumentBinder().Bind<FakeClass>(paramz);
+
+            Assert.That(instance.BoolValue, Is.True);
+        }
+
         [Test]
         public void Bind_UnsupportedTargetType_Throws()
         {
@@ -58,10 +79,11 @@ namespace ForcePush.Test.Unit.CliParsing
             var hint = new ArgumentBinder().Hint<FakeClass>();
 
             Assert.That(hint[0], Is.EqualTo("Supported arguments:"));
-            Assert.That(hint[1], Is.EqualTo("\t\t\t-a=... (string)"));
-            Assert.That(hint[2], Is.EqualTo("\t\t\t-b=... (string)"));
-            Assert.That(hint[3], Is.EqualTo("\t\t\t-required=... (string, required)"));
-            Assert.That(hint[4], Is.EqualTo("\t\t\t-thing=... (string)\r\n\t\t\tMethod\r\n"));
+            Assert.That(hint[1], Is.EqualTo("\t-a=... (string)"));
+            Assert.That(hint[2], Is.EqualTo("\t-b=... (string)"));
+            Assert.That(hint[3], Is.EqualTo("\t-required=... (string, required)"));
+            Assert.That(hint[4], Is.EqualTo("\t-thing=... (string)\r\n\tMethod\r\n"));
+            Assert.That(hint[5], Is.EqualTo("\t-boolvalue=... (boolean)"));
         }
 
         public class FakeClass
@@ -72,6 +94,8 @@ namespace ForcePush.Test.Unit.CliParsing
 
             [Required] public string Required { get; set; }
             [Annotation("Method")] public string Thing { get; set; }
+
+            public bool BoolValue { get; set; }
         }
     }
 }
