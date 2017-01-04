@@ -26,10 +26,10 @@ namespace ForcePush.Diffing
 
             _output.WriteLine("Collecting Git-Diff...");
 
-            var branchCheck = _commandRunner.Execute("git status");
+            var branchCheck = _commandRunner.Execute("git status", gitDirectory);
             if (branchCheck.First() != $"On branch {secondBranch}")
             {
-                _commandRunner.Execute($"git checkout -f {secondBranch}");
+                _commandRunner.Execute($"git checkout -f {secondBranch}", gitDirectory);
             }
 
             var results = _commandRunner.Execute($"git diff --name-only {firstBranch}...{secondBranch}", gitDirectory);
